@@ -1,12 +1,9 @@
 resource "aws_ecs_task_definition" "ecs_task_definition" {
-  family                   = local.app
-  execution_role_arn       = aws_iam_role.ecs.arn
-  task_role_arn            = aws_iam_role.ecs_task.arn
-  network_mode             = "awsvpc"
-  cpu                      = 256
-  memory                   = 512
-  requires_compatibilities = ["FARGATE"]
-  # NOTE: Dummy container for initial.
+  family             = local.app
+  execution_role_arn = aws_iam_role.ecs.arn
+  task_role_arn      = aws_iam_role.ecs_task.arn
+  network_mode       = "bridge"  # EC2モードに適した設定
+
   container_definitions = <<CONTAINERS
 [
   {
@@ -53,6 +50,7 @@ resource "aws_ecs_service" "ecs_service" {
     container_name   = local.app
     container_port   = 8080
   }
+
   depends_on = [aws_lb_listener_rule.alb_listener_rule]
 }
 
