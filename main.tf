@@ -1,10 +1,32 @@
- terraform {
- # Assumes s3 bucket and dynamo DB table already set up
- backend "s3" {
-  bucket = "aws-ecs-terraform-tfstate-ishihara-test"        
-  key = "terraform.tfstate"
-  region = "ap-northeast-1"       
-  dynamodb_table = "aws-ecs-terraform-tfstate-locking"
-  encrypt = true       
- }
+# ---------------------------------------------
+# Terraform configuration
+# ---------------------------------------------
+terraform {
+  required_version = ">=0.13"
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 3.0"
+    }
+  }
+  backend "s3" {
+    bucket  = "aws-ecs-terraform-tfstate-ishihara-test"
+    key     = "tfstylog.tfstate"
+    region  = "ap-northeast-1"
+    profile = "terraform"
+  }
+}
+
+# ---------------------------------------------
+# Provider
+# ---------------------------------------------
+provider "aws" {
+  profile = "terraform"
+  region  = "ap-northeast-1"
+}
+
+provider "aws" {
+  alias   = "virginia"
+  profile = "terraform"
+  region  = "us-east-1"
 }
