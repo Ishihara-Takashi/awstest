@@ -17,16 +17,4 @@ terraform {
   }
 }
 
-# ---------------------------------------------
-# Provider
-# ---------------------------------------------
-provider "aws" {
-  profile = "terraform"
-  region  = "ap-northeast-1"
-}
 
-provider "aws" {
-  alias   = "virginia"
-  profile = "terraform"
-  region  = "us-east-1"
-}
