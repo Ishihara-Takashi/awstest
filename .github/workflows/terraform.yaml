@@ -16,7 +16,8 @@ permissions:
 defaults:
   run:
     shell: bash
-    
+    working-directory: "awstest"
+
 jobs:
   terraform:
     runs-on: ubuntu-latest
