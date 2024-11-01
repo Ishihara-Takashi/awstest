@@ -1,10 +1,10 @@
 resource "aws_ecs_task_definition" "ecs_task_definition" {
-  family             = local.app
-  execution_role_arn = aws_iam_role.ecs.arn
-  task_role_arn      = aws_iam_role.ecs_task.arn
-  network_mode       = "awsvpc"  # ネットワークモードを awsvpc に変更
-  cpu                = 256
-  memory             = 512
+  family                = local.app
+  execution_role_arn    = aws_iam_role.ecs.arn
+  task_role_arn         = aws_iam_role.ecs_task.arn
+  network_mode          = "awsvpc" # ネットワークモードを awsvpc に変更
+  cpu                   = 256
+  memory                = 512
   container_definitions = <<CONTAINERS
 [
   {
