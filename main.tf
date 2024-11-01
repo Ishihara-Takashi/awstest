@@ -15,18 +15,20 @@ terraform {
     region  = "ap-northeast-1"
     profile = "terraform"
   }
+
+  provider "aws" {
+   profile = "terraform"
+   region  = "ap-northeast-1"
+  }
+
+  provider "aws" {
+   alias   = "virginia"
+   profile = "terraform"
+   region  = "us-east-1"
+  }
 }
 
 # ---------------------------------------------
 # Provider
 # ---------------------------------------------
-provider "aws" {
-  profile = "terraform"
-  region  = "ap-northeast-1"
-}
 
-provider "aws" {
-  alias   = "virginia"
-  profile = "terraform"
-  region  = "us-east-1"
-}
