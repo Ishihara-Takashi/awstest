@@ -63,6 +63,10 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: tfcmt plan -patch -- terraform plan -no-color -input=false
 
+      - name: Terraform Unlock
+        id: unclock
+        run: terraform force-unlock 
+
       - name: Terraform Plan Status
         if: steps.plan.outcome == 'failure'
         run: exit 1
