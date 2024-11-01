@@ -14,7 +14,7 @@ terraform {
     key            = "tfstylog.tfstate"
     region         = "ap-northeast-1"
     dynamodb_table = "aws-ecs-terraform-tfstate-locking"
-    profile        = "terraform"
+    encrypt        = true
   }
 }
 
