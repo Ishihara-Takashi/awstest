@@ -78,6 +78,10 @@ resource "aws_instance" "ecs_instance" {
   }
 }
 
+data "aws_ssm_parameter" "ecs_optimized_ami" {
+  name = "/aws/service/ecs/optimized-ami/amazon-linux-2/recommended/image_id"
+}
+
 # IAM Role and Instance Profile for ECS EC2 instance
 resource "aws_iam_role" "ecs_instance_role" {
   name = "ecs_instance_role"
