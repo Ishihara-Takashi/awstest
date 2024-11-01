@@ -8,6 +8,7 @@ resource "aws_ecr_repository" "ecr_repository" {
   }
 }
 
+
 resource "aws_ecr_lifecycle_policy" "ecr_lifecycle_policy" {
   repository = aws_ecr_repository.ecr_repository.name
 
