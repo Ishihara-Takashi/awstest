@@ -16,8 +16,9 @@ terraform {
     dynamodb_table = "aws-ecs-terraform-tfstate-locking"
     profile = "terraform"
   }
-
-  provider "aws" {
-   region  = "ap-northeast-1"
-  }
 }
+
+provider "aws" {
+  region  = "ap-northeast-1"
+}
+
