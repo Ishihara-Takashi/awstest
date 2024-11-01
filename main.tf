@@ -10,15 +10,15 @@ terraform {
     }
   }
   backend "s3" {
-    bucket  = "aws-ecs-terraform-tfstate-ishihara-test"
-    key     = "tfstylog.tfstate"
-    region  = "ap-northeast-1"
+    bucket         = "aws-ecs-terraform-tfstate-ishihara-test"
+    key            = "tfstylog.tfstate"
+    region         = "ap-northeast-1"
     dynamodb_table = "aws-ecs-terraform-tfstate-locking"
-    profile = "terraform"
+    profile        = "terraform"
   }
 }
 
 provider "aws" {
-  region  = "ap-northeast-1"
+  region = "ap-northeast-1"
 }
 
