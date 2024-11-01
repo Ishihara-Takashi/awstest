@@ -6,29 +6,18 @@ terraform {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = "~> 3.0"
+      version = "~> 4.0"
     }
   }
   backend "s3" {
     bucket  = "aws-ecs-terraform-tfstate-ishihara-test"
     key     = "tfstylog.tfstate"
     region  = "ap-northeast-1"
+    dynamodb_table = "aws-ecs-terraform-tfstate-locking"
     profile = "terraform"
   }
 
   provider "aws" {
-   profile = "terraform"
    region  = "ap-northeast-1"
   }
-
-  provider "aws" {
-   alias   = "virginia"
-   profile = "terraform"
-   region  = "us-east-1"
-  }
 }
-
-# ---------------------------------------------
-# Provider
-# ---------------------------------------------
-
