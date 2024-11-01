@@ -63,7 +63,7 @@ resource "aws_ecs_cluster" "ecs_cluster" {
 }
 
 resource "aws_instance" "ecs_instance" {
-  ami                    = "<ECS-optimized AMI ID>" # EC2用のECS最適化AMI
+  ami                    = data.aws_ssm_parameter.ecs_optimized_ami.value # EC2用のECS最適化AMI
   instance_type          = "t2.micro"
   iam_instance_profile   = aws_iam_instance_profile.ecs_instance_profile.name
   user_data              = <<-EOF
@@ -75,5 +75,53 @@ resource "aws_instance" "ecs_instance" {
 
   tags = {
     Name = "ecs-instance"
+  }
+}
+
+# IAM Role and Instance Profile for ECS EC2 instance
+resource "aws_iam_role" "ecs_instance_role" {
+  name = "ecs_instance_role"
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      {
+        Effect = "Allow",
+        Principal = {
+          Service = "ec2.amazonaws.com"
+        },
+        Action = "sts:AssumeRole"
+      }
+    ]
+  })
+}
+
+resource "aws_iam_instance_profile" "ecs_instance_profile" {
+  name = "ecs_instance_profile"
+  role = aws_iam_role.ecs_instance_role.name
+}
+
+resource "aws_iam_role_policy_attachment" "ecs_instance_policy_attach" {
+  role       = aws_iam_role.ecs_instance_role.name
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceforEC2Role"
+}
+
+# Security Group for ECS EC2 instance
+resource "aws_security_group" "ecs_sg" {
+  name        = "${local.app}-ecs-sg"
+  description = "ECS security group for ${local.app}"
+  vpc_id      = module.vpc.vpc_id
+
+  ingress {
+    from_port   = 8080
+    to_port     = 8080
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
   }
 }
